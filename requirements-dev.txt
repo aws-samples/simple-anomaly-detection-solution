@@ -1,0 +1,12 @@
+autoflake
+black
+flake8
+pytest
+mypy
+isort>=5
+pre-commit
+ipykernel
+
+# CLean up dev env using "setup.py clean --all"
+setupext-janitor
+git-remote-codecommit
