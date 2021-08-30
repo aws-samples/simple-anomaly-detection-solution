@@ -42,10 +42,13 @@ Visualize time index with anomaly deteceted and feature importance for tree base
 
 ![Evaluation](images/evaluation.png)
 
-## Security
+## Supported Models
 
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+- Univariate Inter Quantile Ratio
+- Multivariate Vector Auto Regression
+- Multivariate Isolation Forest
+- Multivariate Mahalanobis Distance
 
-## License
+## Usage
 
 This library is licensed under the MIT-0 License. See the LICENSE file.

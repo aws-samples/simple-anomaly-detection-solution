@@ -76,6 +76,10 @@ def display_editable_df(df, editable: bool = False):
         )
         gb.configure_grid_options(onCellValueChanged=js)
         gb.configure_pagination(enabled=True)
+<<<<<<< HEAD
+=======
+        # gb.configure_selection(selection_mode=True, use_checkbox=False)
+>>>>>>> 55d9ef8fa1ea0b50720d23aeaa5a5921bb5a2367
     go = gb.build()
 
     update_mode = GridUpdateMode.VALUE_CHANGED
@@ -155,7 +159,11 @@ def display_fileuploader():
 
 def display_file_selector(folder_path: Path = Path("./refdata")):
     filenames = folder_path.glob("*.csv")
+<<<<<<< HEAD
     selected_filename = st.selectbox("Select a file", filenames, index=0)
+=======
+    selected_filename = st.selectbox("Select a file", filenames, index=1)
+>>>>>>> 55d9ef8fa1ea0b50720d23aeaa5a5921bb5a2367
     return selected_filename
 
 
