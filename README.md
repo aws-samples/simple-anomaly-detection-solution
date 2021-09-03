@@ -26,6 +26,22 @@ streamlit run src/uc_timeseries/streamlit_app.py -- --data_dir <path/to/data/>
 
 ```
 
+## Demo
+
+A demo data with some anomaly points has been included to get you familarized with this tool.
+
+### Model Selection
+
+Select desired model to run training and evaluation.
+
+![Model selection](images/model_selection.png)
+
+### Evaluation
+
+Visualize time index with anomaly deteceted and feature importance for tree based model.
+
+![Evaluation](images/evaluation.png)
+
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
