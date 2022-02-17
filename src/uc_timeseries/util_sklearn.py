@@ -23,10 +23,11 @@ def isolation_forest(df, contamination: float) -> Tuple[pd.DataFrame, IsolationF
         contamination (float): Percentage of anomaly
 
     Returns:
-        Tuple[pd.DataFrame, IsolationForest, np.ndarray]:
-        shap: shap values feature importance, low to high
-        est: IF estimator
-        preds: Prediction of anomaly point. (-1 is anomaly)
+        Tuple[pd.DataFrame, IsolationForest, np.ndarray]
+
+        1. shap: shap values feature importance, low to high
+        2. est: IF estimator
+        4. preds: Prediction of anomaly point. (-1 is anomaly)
     """
     est = IsolationForest(n_estimators=100, random_state=0, contamination=contamination)
     est.fit(df)

@@ -32,10 +32,10 @@ DEFAULT_MODEL_IDX = 2
 DEFAUTL_CONFIG = {
     "sidebar": {"num_col": 2},
     "input_file": "refdata/tags_medium.csv",
-    "iso_forest": {"contamination": 0.02},
+    "iso_forest": {"contamination": 0.015},
     "uni_kat": {"iqr_mult": 2},
     "multi_kat": {"training_days": 5, "maxlags": 2, "alpha": 0.05},
-    "mahalanobis": {"contamination": 0.02},
+    "mahalanobis": {"contamination": 0.015},
 }
 
 # To support streamlit width constraint
@@ -100,9 +100,7 @@ def plot_hvplot(fig):
 
 
 def display_setup_sidebar(st):
-    model = st.sidebar.selectbox(
-        "Select model", MODEL_MAP.values(), index=DEFAULT_MODEL_IDX
-    )
+    model = st.sidebar.selectbox("Select model", MODEL_MAP.values(), index=DEFAULT_MODEL_IDX)
 
     cols = st.sidebar.multiselect(
         label="Select columns (1st two by default)",
@@ -169,26 +167,35 @@ def display_ts_overview(OUTPUT_DIR, df, selected_cols):
         ncol=1,
         output_dir=OUTPUT_DIR / "summary",
         save_figure=False,
-        # width=WIDTH,
         height=200,
     )
     plot_hvplot(p)
 
 
 def display_model(
-    OUTPUT_DIR, df, selected_cols, selected_model, button_retrain,
+    OUTPUT_DIR,
+    df,
+    selected_cols,
+    selected_model,
+    button_retrain,
 ):
+    ##########################################
+    # IQR Univariate
+    ##########################################
     if selected_model == MODEL_MAP["uni_kat"]:
         st.header(f"Anomaly: {selected_model}")
-        st.write("""
+        st.write(
+            """
         This model identify anomaly in each timeseries individually that
         exceeds Interquartile Range (IQR) by `IQR * factor`.
-        """)
-        iqr_mult = float(
-            st.text_input("IQR factor", value=DEFAUTL_CONFIG["uni_kat"]["iqr_mult"])
+        """
         )
+        iqr_mult = float(st.text_input("IQR factor", value=DEFAUTL_CONFIG["uni_kat"]["iqr_mult"]))
         model_kats_univariate(df, selected_cols, iqr_mult)
 
+    ##########################################
+    # VAR Multivariate
+    ##########################################
     elif selected_model == MODEL_MAP["multi_kat"]:
         st.header(f"Anomaly: {selected_model}")
         training_days = int(
@@ -197,12 +204,8 @@ def display_model(
                 value=DEFAUTL_CONFIG["multi_kat"]["training_days"],
             )
         )
-        maxlags = int(
-            st.text_input("Max lag", value=DEFAUTL_CONFIG["multi_kat"]["maxlags"])
-        )
-        alpha = float(
-            st.text_input("Alpha", value=DEFAUTL_CONFIG["multi_kat"]["alpha"])
-        )
+        maxlags = int(st.text_input("Max lag", value=DEFAUTL_CONFIG["multi_kat"]["maxlags"]))
+        alpha = float(st.text_input("Alpha", value=DEFAUTL_CONFIG["multi_kat"]["alpha"]))
         # Multivariate outlier
         model_name = OUTPUT_DIR / "kats/multivariate/multi_var_detector.pkl"
         model_name.parent.mkdir(parents=True, exist_ok=True)
@@ -252,11 +255,19 @@ def display_model(
                 anomaly_score_df.drop(["overall_anomaly_score", "p_value"], axis=1),
                 preds,
             )
-
+    ##########################################
+    # Isolation Forest
+    ##########################################
     elif selected_model == MODEL_MAP["iso_forest"]:
+        st.header(f"Anomaly: {selected_model}")
+
         contamination = float(
-            st.text_input(
-                "Contamination", value=DEFAUTL_CONFIG["iso_forest"]["contamination"]
+            st.number_input(
+                "Contamination (the percentage of points to be anomalous)",
+                value=DEFAUTL_CONFIG["iso_forest"]["contamination"],
+                min_value=0.0001,
+                max_value=0.5,
+                format="%f",
             )
         )
 
@@ -277,7 +288,6 @@ def display_model(
             output_dir=OUTPUT_DIR / "isolation_forest/multivariate",
             vlines=pd.to_datetime(anomaly_point_df.index),
             save_figure=True,
-            width=WIDTH,
             height=200,
         )
         plot_hvplot(p_if)
@@ -288,16 +298,20 @@ def display_model(
             display_tsne(df, preds)
 
     elif selected_model == MODEL_MAP["mahalanobis"]:
+        st.header(f"Anomaly: {selected_model}")
+
         contamination = float(
-            st.text_input(
-                "Contamination (MH distance)",
+            st.number_input(
+                "Contamination (the percentage of points to be anomalous)",
                 value=DEFAUTL_CONFIG["mahalanobis"]["contamination"],
+                min_value=0.0001,
+                max_value=0.5,
+                format="%f",
             )
         )
+
         with st.spinner("Training model..."):
-            est, preds, mahalanobis_dist = elliptic_envelope(
-                df, contamination=contamination
-            )
+            est, preds, mahalanobis_dist = elliptic_envelope(df, contamination=contamination)
 
         model_name = OUTPUT_DIR / "mahalanobis/estimator.pkl"
         save_pickle(est, model_name)
@@ -313,7 +327,6 @@ def display_model(
             output_dir=OUTPUT_DIR / "mahalanobis/multivariate",
             vlines=pd.to_datetime(anomaly_point_df.index),
             save_figure=True,
-            width=WIDTH,
             height=200,
         )
         plot_hvplot(p_if)
@@ -346,7 +359,9 @@ def parser():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--data_dir", type=Path, help="Path to default data",
+        "--data_dir",
+        type=Path,
+        help="Path to default data",
     )
     args, _ = parser.parse_known_args()
     print(args)
@@ -402,7 +417,11 @@ if __name__ == "__main__":
     display_ts_overview(OUTPUT_DIR, df, selected_cols)
 
     display_model(
-        OUTPUT_DIR, df, selected_cols, selected_model, button_retrain,
+        OUTPUT_DIR,
+        df,
+        selected_cols,
+        selected_model,
+        button_retrain,
     )
 
     print("Done")

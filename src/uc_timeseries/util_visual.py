@@ -22,8 +22,8 @@ def hvplot_line_grid(
         subplots=True,
         shared_axes=False,
         grid=True,
-        legend=True,
-        fontsize=10,
+        # legend=True,
+        # fontsize=10,
         rot=45,
         **kwargs,
     ).cols(ncol)
@@ -75,10 +75,10 @@ def hvplot_line(
         kind="line",
         xlabel="Time",
         ylabel="Value",
-        size=10,
+        # size=10,
         grid=True,
         legend=True,
-        fontsize=15,
+        # fontsize=15,
         rot=45,
         **kwargs,
     )
@@ -103,17 +103,17 @@ def hvplot_vlines(df, title, output_dir: Path, vlines=None, save_figure=True, **
         x="time",
         y="Value",
         kind="line",
-        size=10,
+        # size=10,
         alpha=0.3,
         xlabel="Time",
         ylabel=None,
         grid=True,
         subplots=False,
         legend=True,
-        fontsize=15,
+        # fontsize=15,
         rot=45,
         **kwargs,
-    )
+    ).opts(toolbar="above")
 
     for x in vlines:
         p = p * hv.VLine(pd.to_datetime(x)).opts(color="red", alpha=0.3)
