@@ -49,7 +49,7 @@ def get_kats_single_outlier(ts: TimeSeriesData, iqr_mult: int) -> Tuple[pd.Datet
 
 
 def get_kats_mv_outlier(mv_ts, training_days: float, maxlags: int):
-    """Multvariate outlier.
+    """Multvariate outlier using statsmodels.tsa.api.VAR
 
     Ensure there is enough data point (training_data) in mv_ts.
         - AttributeError: 'DataFrame' object has no attribute 'p_value'
@@ -75,7 +75,7 @@ def get_kats_mv_outlier(mv_ts, training_days: float, maxlags: int):
 
 def main(args):
 
-    df = load_dummy_data()
+    df = load_dummy_data("refdata/dummy.csv")
     TS_COLS = list(df.columns)
 
     if True:
@@ -84,7 +84,7 @@ def main(args):
             print(f"Processing: {col}")
             col_name = [col]
             ts = df_to_timeseries(df, value_col=col_name)
-            outliers = get_kats_single_outlier(ts)
+            outliers = get_kats_single_outlier(ts, 0.015)
             print(outliers)
             hvplot_line(
                 df,
