@@ -14,15 +14,18 @@ A simple user interface built on top of Streamlit to provide a quick glance on t
 - Multivariate Mahalanobis Distance
 
 ## Usage
+This application has been tested with python 3.9.
 
 ```bash
 git clone https://github.com/yapweiyih/simple-anomaly-detection
 cd simple-anomaly-detection
 
-# Activate virtual environment first
+# Activate virtual environment first and install python package, this may take a while, so take a cup of coffee.
 pip install -e .
-streamlit run src/uc_timeseries/streamlit_app.py -- --data_dir <path/to/data/>
-# streamlit run src/uc_timeseries/streamlit_app.py -- --data_dir refdata
+pip install -r requirements.txt
+
+# streamlit run src/uc_timeseries/streamlit_app.py -- --data_dir <path/to/data/>
+streamlit run src/uc_timeseries/streamlit_app.py -- --data_dir refdata
 
 ```
 

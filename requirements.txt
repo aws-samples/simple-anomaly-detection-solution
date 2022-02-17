@@ -1,0 +1,8 @@
+pandas
+numpy
+kats==0.1.0
+bokeh==2.4.1
+hvplot
+streamlit==1.5.1
+streamlit-aggrid
+shap

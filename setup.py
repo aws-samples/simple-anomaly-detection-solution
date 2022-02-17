@@ -18,16 +18,16 @@ def read(fname) -> str:
 
 # Declare minimal set for installation
 required_packages: List[str] = [
-    "pandas==1.3.2",
-    "numpy==1.20.3",
-    "kats==0.1.0",
-    "hvplot==0.7.3",
-    "panel==0.9.7",
-    "bokeh==2.2.0",
-    "jupyter_bokeh",
-    "shap",
-    "streamlit==0.86.0",
-    "streamlit-aggrid==0.2.1",
+    # "pandas==1.3.2",
+    # "numpy==1.20.3",
+    # "kats==0.1.0",
+    # "hvplot==0.7.3",
+    # "panel==0.9.7",
+    # "bokeh==2.2.0",
+    # "jupyter_bokeh",
+    # "shap",
+    # "streamlit==0.86.0",
+    # "streamlit-aggrid==0.2.1",
 ]
 
 setup(
@@ -53,6 +53,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
     ],
-    python_requires=">=3.6.0",
+    python_requires="==3.9.*",
     install_requires=required_packages,
 )

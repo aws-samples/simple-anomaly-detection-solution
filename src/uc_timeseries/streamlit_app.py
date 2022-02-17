@@ -162,7 +162,7 @@ def display_file_selector(folder_path: Path = Path("./refdata")):
 def display_ts_overview(OUTPUT_DIR, df, selected_cols):
     st.write({"Columns": selected_cols})
 
-    with st.beta_expander("Overview", expanded=False):
+    with st.expander("Overview", expanded=False):
         p = hvplot_line_grid(
             df,
             title="Summary",
@@ -182,6 +182,10 @@ def display_model(
 ):
     if selected_model == MODEL_MAP["uni_kat"]:
         st.header(f"Anomaly: {selected_model}")
+        st.write("""
+        This model identify anomaly in each timeseries individually that
+        exceeds Interquartile Range (IQR) by `IQR * factor`.
+        """)
         iqr_mult = float(
             st.text_input("IQR factor", value=DEFAUTL_CONFIG["uni_kat"]["iqr_mult"])
         )

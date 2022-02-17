@@ -22,7 +22,7 @@ def df_to_timeseries(df, value_col: List[str]) -> TimeSeriesData:
 
 
 def get_kats_single_outlier(ts: TimeSeriesData, iqr_mult: int) -> Tuple[pd.DatetimeIndex, Any]:
-    """Find outlier based on interquantile range (iqr). In this exceed iqr_mult * iqr.
+    """Find outlier based on interquantile range (iqr). Pick up pointts that exceed iqr_mult * iqr.
     Increase iqr_mult to reduce anomaly points.
 
     Method: "additive", "multiplicative"
