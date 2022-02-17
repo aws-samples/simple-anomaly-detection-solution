@@ -160,21 +160,19 @@ def display_file_selector(folder_path: Path = Path("./refdata")):
 
 
 def display_ts_overview(OUTPUT_DIR, df, selected_cols):
-    st.write({"Columns": selected_cols})
-
-    with st.expander("Overview", expanded=False):
-        p = hvplot_line_grid(
-            df,
-            title="Summary",
-            x="time",
-            y=selected_cols,
-            ncol=1,
-            output_dir=OUTPUT_DIR / "summary",
-            save_figure=False,
-            width=WIDTH,
-            height=200,
-        )
-        plot_hvplot(p)
+    st.write({"Selected columns": selected_cols})
+    p = hvplot_line_grid(
+        df,
+        title="Summary",
+        x="time",
+        y=selected_cols,
+        ncol=1,
+        output_dir=OUTPUT_DIR / "summary",
+        save_figure=False,
+        # width=WIDTH,
+        height=200,
+    )
+    plot_hvplot(p)
 
 
 def display_model(
@@ -395,7 +393,7 @@ if __name__ == "__main__":
     ########################
     # Main page
     ########################
-    st.header("Overview")
+    st.header("Time Series Data Loaded")
 
     if len(selected_cols) <= 1:
         st.write("Please select columns (at least 2) and model")
