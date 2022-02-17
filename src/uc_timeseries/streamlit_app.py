@@ -244,7 +244,6 @@ def display_model(
             output_dir=OUTPUT_DIR / "kats/multivariate",
             vlines=pd.to_datetime(anomalies),
             save_figure=True,
-            width=WIDTH,
             height=200,
         )
         plot_hvplot(p_kat_mv)
