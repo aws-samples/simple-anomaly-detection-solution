@@ -3,7 +3,7 @@ numpy
 kats==0.1.0
 bokeh==2.4.1
 hvplot
-streamlit==1.5.1
+streamlit==1.11.1
 statsmodels==0.12.2 # This is required for kats
 streamlit-aggrid
 shap
